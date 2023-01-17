@@ -1,15 +1,24 @@
-'use strict';
+"use strics";
 
-const user = new UserForm();
+let userForm = new UserForm();
 
-user.loginFormCallback = function (data) {
+userForm.loginFormCallback = (data) => {
     ApiConnector.login(data, (response) => {
-        response.success ? location.reload() : this.setLoginErrorMessage(response.error)
-    })
+        if (response.success === true) {
+            location.reload();
+        } else {
+            userForm.setLoginErrorMessage('Ошибка авторизации: ' + response.error);
+        }
+    });
 };
 
-user.registerFormCallback = function (data) {
+userForm.registerFormCallback = (data) => {
     ApiConnector.register(data, (response) => {
-        response.success ? location.reload() : this.setRegisterErrorMessage(response.error)
-    })
+        if (response.success === true) {
+            userForm.id = response.id;
+            location.reload();
+        } else {
+            userForm.setRegisterErrorMessage('Ошибка регистрации: ' + response.error);
+        }
+    });
 };
